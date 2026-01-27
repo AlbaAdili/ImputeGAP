@@ -1,0 +1,86 @@
+# GP-VAE configuration
+
+# -------------------------
+# Dataset splits 
+# -------------------------
+splits: [TRAIN_SIZE, VAL_SIZE, TEST_SIZE]      # nr of samples in train, val, test
+inference_batch_size: 128
+
+
+# -------------------------
+# Data structure
+# -------------------------
+nbr_features: N          # number of time series channels
+seq_length: L            # length of the time series (values)
+
+# -------------------------
+# Misc
+# -------------------------
+M: 1
+K: 1
+activation: relu
+
+# -------------------------
+# Data preprocessor (2d CNN), used for computer vision dataset
+# -------------------------
+image_preprocessor: false
+cnn_kernel_size: None
+cnn_sizes: None
+image_shape: None
+
+# -------------------------
+# Encoder (CNN)
+# -------------------------
+encoder_sizes: [128, 128]   # Layer sizes of the encoder
+window_size: 24             # Windows size for the encoder CNN
+cov_activation: sigmoid     # (<sigmoid|softplus>), encoder mapped covariance activation
+
+# -------------------------
+# Latent space
+# -------------------------
+latent_dim: 35           # Dimensionality of latent space
+
+# -------------------------
+# GP kernel parameters
+# -------------------------
+kernel: cauchy          # (<rbf|diffusion|matern|cauchy>)
+sigma: 1.005
+length_scale: 7.0       
+kernel_scales: 1         
+
+# -------------------------
+# Generative network
+# -------------------------
+decoder_sizes: [256, 256]
+decoder_type: GaussianDecoder   # (<GaussianDecoder|BernoulliDecoder>)
+
+# -------------------------
+# Training hyperparameters
+# -------------------------
+optimizer:
+  type: Adam
+  learning_rate: 0.001
+  scheduler:
+      type: "ExponentialDecay"    # "None", "ExponentialDecay", "PiecewiseConstant", "CosineDecay"
+      decay_rate: 0.5
+      staircase: True
+epoch: 40
+batch_size: 64
+beta: 0.2
+gradient_clip: 10000.0
+
+# -------------------------
+# Evalutation
+# -------------------------
+evaluation:
+  compute_auroc: True
+  binary: True
+  classifier: logistic_regression
+
+  classification:
+    task: multiclass        # <binary|multiclass>
+    num_classes: 10         # only for multiclass
+    rounding: true          # round imputed values (e.g. hmnist)
+    solver: lbfgs           # liblinear | lbfgs
+    max_iter: 10000
+    tol: 1.0e-10

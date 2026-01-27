@@ -1,0 +1,21 @@
+# Ignore configuration and build script
+.pypirc
+build_script.txt
+*03_imputegap_exercices.ipynb
+*03_imputegap_exercices_sol.ipynb
+*assignment_imputegap.ipynb
+*runner_validation.py
+*extractor_imp.py
+*extractor_pickle.py
+*extractor_pkl.py
+imputegap/tools/extract/*
+imputegap/datasets/chlorine_m200.txt
+imputegap/datasets/airq_m200.txt
+imputegap/datasets/fmri-objectviewing.txt
+imputegap/datasets/pollution.txt
+imputegap/datasets/test-large.txt
+*checkpoint.pth
+## Added
+venv/
+external/
+__pycache__/
